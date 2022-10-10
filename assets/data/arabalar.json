@@ -1,0 +1,36 @@
+[
+    {
+        "araba_adi":"mercedes",
+        "ulke":"almanya",
+        "kurulus_yili":1920,
+        "model":[
+            {
+                "model_adi":"a serisi",
+                "fiyat":15000,
+                "benzinli":true
+            },
+            {
+                "model_adi":"c serisi",
+                "fiyat":25000,
+                "benzinli":false
+            }
+        ]
+    },
+    {
+        "araba_adi":"honda",
+        "ulke":"japonya",
+        "kurulus_yili":1920,
+        "model":[
+            {
+                "model_adi":"civic",
+                "fiyat":12000,
+                "benzinli":true
+            },
+            {
+                "model_adi":"jazz",
+                "fiyat":10000,
+                "benzinli":false
+            }
+        ]
+    }
+]
