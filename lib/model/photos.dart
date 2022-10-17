@@ -2,7 +2,6 @@
 //
 //     final photosModel = photosModelFromMap(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 PhotosModel photosModelFromMap(String str) =>

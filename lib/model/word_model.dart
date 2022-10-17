@@ -2,7 +2,6 @@
 //
 //     final wordModel = wordModelFromMap(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 WordModel wordModelFromMap(String str) => WordModel.fromMap(json.decode(str));

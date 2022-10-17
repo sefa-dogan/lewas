@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "257476210398",
+    "project_id": "lewas-4f9c9",
+    "storage_bucket": "lewas-4f9c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257476210398:android:71b9eee0a0ed0ba2801c4f",
+        "android_client_info": {
+          "package_name": "com.example.learn_english"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257476210398-0a35cfppt6oubuimg2pfpbt324pbc0s5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuPFNsW7S6kgJQmQPd6eACM8JIWNA9ddk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257476210398-0a35cfppt6oubuimg2pfpbt324pbc0s5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

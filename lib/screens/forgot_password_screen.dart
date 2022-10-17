@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class ForgotPassword extends StatelessWidget {
   const ForgotPassword({super.key});
@@ -9,13 +7,14 @@ class ForgotPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
+        title: const Center(
           child: Text(
             "LEWAS",
             style: TextStyle(fontSize: 24),
           ),
         ),
-        bottom: PreferredSize(
+        bottom: const PreferredSize(
+          // ignore: sort_child_properties_last
           child: Text(
             "Learn English Words And Speak",
             style: TextStyle(color: Colors.purple, fontSize: 16),
@@ -30,8 +29,8 @@ class ForgotPassword extends StatelessWidget {
           Expanded(
             child: Container(
               alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
+              child: const Padding(
+                padding: EdgeInsets.only(left: 40, right: 40, bottom: 10),
                 child: TextField(
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
@@ -43,7 +42,7 @@ class ForgotPassword extends StatelessWidget {
             child: Container(
                 alignment: Alignment.topCenter,
                 child: ElevatedButton(
-                    onPressed: () {}, child: Text("Kod gönder"))),
+                    onPressed: () {}, child: const Text("Kod gönder"))),
           )
         ],
       ),

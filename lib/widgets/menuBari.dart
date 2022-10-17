@@ -1,7 +1,9 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
-import 'package:learn_english/home_page.dart';
-import 'package:learn_english/learned_words.dart';
-import 'package:learn_english/user_informations.dart';
+import 'package:learn_english/screens/home_page_screen.dart';
+import 'package:learn_english/screens/learned_words_screen.dart';
+import 'package:learn_english/screens/user_informations_screen.dart';
 
 class MenuBari {
   Row createBar(BuildContext context) {
@@ -17,13 +19,13 @@ class MenuBari {
                 Navigator.maybePop(context);
               }
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => HomePage(),
+                builder: (context) => const HomePage(),
               ));
             },
-            child: Icon(Icons.home, color: Colors.black, shadows: [
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            child: const Icon(Icons.home, color: Colors.black, shadows: [
               Shadow(color: Colors.grey, blurRadius: 10, offset: Offset.zero)
             ]),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
           ),
         ),
         Expanded(
@@ -36,10 +38,11 @@ class MenuBari {
                 Navigator.maybePop(context);
               }
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => LearnedWords(),
+                builder: (context) => const LearnedWords(),
               ));
             },
-            child: Icon(
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            child: const Icon(
                 Icons
                     .checklist, // öğrenilmiş kelimelere bu buton sayesinde gidilir.
                 color: Colors.black,
@@ -47,7 +50,6 @@ class MenuBari {
                   Shadow(
                       color: Colors.grey, offset: Offset.zero, blurRadius: 10)
                 ]),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
           ),
         ),
         Expanded(
@@ -60,14 +62,16 @@ class MenuBari {
                 Navigator.maybePop(context);
               }
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (userInformationsContext) => UserInformations(),
+                builder: (userInformationsContext) => const UserInformations(),
               ));
             },
-            child:
-                Icon(Icons.admin_panel_settings, color: Colors.black, shadows: [
-              Shadow(color: Colors.grey, offset: Offset.zero, blurRadius: 10)
-            ]),
             clipBehavior: Clip.antiAliasWithSaveLayer,
+            child: const Icon(Icons.admin_panel_settings,
+                color: Colors.black,
+                shadows: [
+                  Shadow(
+                      color: Colors.grey, offset: Offset.zero, blurRadius: 10)
+                ]),
           ),
         )
       ],
