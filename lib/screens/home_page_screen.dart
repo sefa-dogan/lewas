@@ -5,6 +5,8 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:learn_english/operations/check_remaining_right_versus_pulled_daily_right.dart';
+import 'package:learn_english/operations/pull_user_right.dart';
 import 'package:learn_english/widgets/menuBari.dart';
 import 'package:learn_english/model/word_model.dart';
 import 'package:learn_english/operations/pull_word_operations.dart';
@@ -29,13 +31,15 @@ class _HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late String userID;
   late int _dailyRight;
-  late int _lastOnlineDay;
+  // late int _lastOnlineDay;
 
   @override
   void initState() {
     super.initState();
     userID = _auth.currentUser!.uid;
-    UserRightsControl().then((value) => _dailyRight = value);
+    PullUserRight()
+        .UserRightsControl(userID)
+        .then((value) => _dailyRight = value);
     _KelimelerveAnlamlariFutureListe =
         PullWord("https://api.dictionaryapi.dev/api/v2/entries/en/").pullWord();
   }
@@ -76,7 +80,7 @@ class _HomePageState extends State<HomePage> {
           "LEWAS",
           style: TextStyle(color: Colors.purple, fontSize: 24),
         )),
-        automaticallyImplyLeading: false, // yeni bir sayfa açıldığ
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -133,8 +137,26 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Expanded(
                         child: ElevatedButton(
-                            onPressed: () {
-                              Check(_random);
+                            onPressed: () async {
+                              Map<String, dynamic> result =
+                                  await CheckRemainingRightVersusPulledDailyRight()
+                                      .checkRemainingRightVersusPulledDailyRight(
+                                          context,
+                                          userID,
+                                          _random,
+                                          _scoreOfLearnedWords,
+                                          _dailyRight,
+                                          _kelimelerveanlamlariListe,
+                                          learnedWords);
+                              _kelimelerveanlamlariListe =
+                                  result["kelimelerveanlamlariListe"];
+                              learnedWords = result["learnedWords"];
+                              if (_scoreOfLearnedWords <
+                                  result["scoreOfLearnedWords"]) {
+                                _scoreOfLearnedWords =
+                                    result["scoreOfLearnedWords"];
+                                setState(() {});
+                              }
 
                               //LEARNED BUTONUNA BASILDIĞINDA İLGİLİ KELİMENİN KEY BİLGİSİNİ LEARNEDWORDS LİSTESİNE EKLE VE  KELİMELER MAP İNDEN SİL
                             },
@@ -167,74 +189,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   // ignore: non_constant_identifier_names
-  Future<int> UserRightsControl() async {
-    var result = (await _firestore
-            .doc("students/$userID/Student Info/Student Info")
-            .get())
-        .data();
-    if (result != null) {
-      _lastOnlineDay = result["Last Online"];
-      // ignore: unrelated_type_equality_checks
-      if (_lastOnlineDay != DateTime.now().day) {
-        await _firestore
-            .doc("students/$userID/Student Info/Student Info")
-            .update({"daily right": 10, "Last Online": DateTime.now().day});
-
-        return (await _firestore
-                .doc("students/$userID/Student Info/Student Info")
-                .get())
-            .data()!["daily right"];
-      } else {
-        return (await _firestore
-                .doc("students/$userID/Student Info/Student Info")
-                .get())
-            .data()!["daily right"];
-      }
-    } else {
-      return Future.error("Belirtilen adres null değer gönderdi.");
-    }
-  }
 
   // ignore: non_constant_identifier_names
-  Future<void> Check(int suankiKelimeVeAnlamiIndex) async {
-    if (_scoreOfLearnedWords != _dailyRight) {
-      learnedWords.add(_kelimelerveanlamlariListe[suankiKelimeVeAnlamiIndex]);
-      SendLearnedWordToDataBaseWithSet(
-          _kelimelerveanlamlariListe[suankiKelimeVeAnlamiIndex].word,
-          _kelimelerveanlamlariListe[suankiKelimeVeAnlamiIndex]
-              .meanings[0]
-              .definitions[0]
-              .definition);
-      _kelimelerveanlamlariListe.removeAt(suankiKelimeVeAnlamiIndex);
-
-      ++_scoreOfLearnedWords == _dailyRight
-          ? showDialog(
-              context: context,
-              builder: (context) {
-                return const AlertDialog(
-                  title: Text("Günlük limite ulaştınız"),
-                );
-              })
-          : setState(() {});
-    } else {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return const AlertDialog(
-              title: Text("Günlük limite ulaştınız"),
-            );
-          });
-    }
-  }
-
-  // ignore: non_constant_identifier_names
-  void SendLearnedWordToDataBaseWithSet(String word, String meaning) async {
-    await _firestore
-        .doc("students/$userID")
-        .collection("learnedwords")
-        .doc("learnedwords")
-        .set({"$word": "$meaning"}, SetOptions(merge: true));
-    await _firestore.doc("students/$userID/Student Info/Student Info").set(
-        {"daily right": FieldValue.increment(-1)}, SetOptions(merge: true));
-  }
 }
