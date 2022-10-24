@@ -151,7 +151,7 @@ class _UserInformationsState extends State<UserInformations> {
                           await _locatorUserInfo.GetUserInformations();
                           setState(() {});
                         },
-                        child: const Text("Güncelle")),
+                        child: const Text("Update")),
                   ],
                 ),
               ),

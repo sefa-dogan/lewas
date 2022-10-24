@@ -39,7 +39,7 @@ class ForgotPassword extends StatelessWidget {
                 child: TextField(
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: "E-mail adresinizi giriniz"),
+                      labelText: "Enter your e-mail address"),
                   onChanged: (value) => _email = value,
                 ),
               ),
@@ -63,7 +63,7 @@ class ForgotPassword extends StatelessWidget {
                         );
                       }
                     },
-                    child: const Text("Kod gönder"))),
+                    child: const Text("Send Reset E-mail"))),
           )
         ],
       ),
