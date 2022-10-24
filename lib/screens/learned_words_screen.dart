@@ -34,7 +34,8 @@ class _LearnedWordsState extends State<LearnedWords> {
           "LEWAS",
           style: TextStyle(color: Colors.purple, fontSize: 24),
         )),
-        automaticallyImplyLeading: false, // yeni bir sayfa açıldığ
+        automaticallyImplyLeading:
+            false, // yeni bir sayfa açıldığı zaman geriye dönmek için appbara yerleştirilen butonun yerleştirilmesini önler.
       ),
       body: Column(
         children: [
