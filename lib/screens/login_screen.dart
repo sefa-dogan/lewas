@@ -64,8 +64,8 @@ class _LoginScreenState extends State<LoginScreen> {
             child: TextField(
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: "Şifre",
-                    labelText: "Şifre"),
+                    hintText: "Password",
+                    labelText: "Password"),
                 onChanged: (value) => _sifre = value,
                 obscureText: true),
           ),
@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () {
                   Get.toNamed("forgotpassword");
                 },
-                child: const Text("Şifremi unuttum"),
+                child: const Text("Forgot password"),
               ),
             ),
             Padding(
@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Get.toNamed("register");
                 },
                 child: const Text(
-                  "Kayit ol",
+                  "Register",
                   style: TextStyle(color: Colors.blue),
                   textAlign: TextAlign.right,
                 ),
@@ -163,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 }
               },
               icon: const Icon(Icons.key),
-              label: const Text("Oturum aç")),
+              label: const Text("Login")),
         ],
       ),
     );

@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:learn_english/locator.dart';
 import 'package:learn_english/model/mobx/is_logged_in.dart';
 import 'package:learn_english/model/mobx/profile_image.dart';
+import 'package:learn_english/model/mobx/user_informations.dart';
 import 'package:learn_english/widgets/menuBari.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,6 +22,7 @@ class UserInformations extends StatefulWidget {
 class _UserInformationsState extends State<UserInformations> {
   final _locator = locator<IsLoggedInMobx>();
   final _locatorPImage = locator<ProfileImage>();
+  final _locatorUserInfo = locator<UserInformationsMobx>();
 
   late String _isim;
   late String _soyisim;
@@ -35,6 +38,9 @@ class _UserInformationsState extends State<UserInformations> {
   void initState() {
     super.initState();
     _user = _auth.currentUser;
+    _isim = _locatorUserInfo.userInformations["isim"];
+    _soyisim = _locatorUserInfo.userInformations["soyisim"];
+    _email = _locatorUserInfo.userInformations["e-mail"];
   }
 
   @override
@@ -141,8 +147,9 @@ class _UserInformationsState extends State<UserInformations> {
                             "e-mail": _email,
                           }, SetOptions(merge: true));
                           activity = false;
-                          setState(() {});
                           await _auth.currentUser!.updateEmail(_email);
+                          await _locatorUserInfo.GetUserInformations();
+                          setState(() {});
                         },
                         child: const Text("Güncelle")),
                   ],
@@ -165,10 +172,12 @@ class _UserInformationsState extends State<UserInformations> {
           padding:
               const EdgeInsets.only(left: 10, right: 40, bottom: 15, top: 10),
           child: TextField(
+            controller:
+                TextEditingController.fromValue(TextEditingValue(text: _isim)),
             decoration: InputDecoration(
               enabled: activityTextField,
-              hintText: "İsim",
-              labelText: "İsim",
+              hintText: "Name",
+              labelText: "Name",
               border: const OutlineInputBorder(),
             ),
             onChanged: (value) => _isim = value,
@@ -179,10 +188,12 @@ class _UserInformationsState extends State<UserInformations> {
           padding:
               const EdgeInsets.only(left: 10, right: 40, bottom: 15, top: 10),
           child: TextField(
+            controller: TextEditingController.fromValue(
+                TextEditingValue(text: _soyisim)),
             decoration: InputDecoration(
               enabled: activityTextField,
-              hintText: "Soyisim",
-              labelText: "Soyisim",
+              hintText: "Surname",
+              labelText: "Surname",
               border: const OutlineInputBorder(),
             ),
             onChanged: (value) => _soyisim = value,
@@ -192,6 +203,8 @@ class _UserInformationsState extends State<UserInformations> {
           padding:
               const EdgeInsets.only(left: 10, right: 40, bottom: 15, top: 10),
           child: TextField(
+            controller:
+                TextEditingController.fromValue(TextEditingValue(text: _email)),
             decoration: InputDecoration(
               enabled: activityTextField,
               hintText: "E-mail",

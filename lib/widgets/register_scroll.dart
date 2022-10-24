@@ -22,8 +22,8 @@ class _RegisterScrollState extends State<RegisterScroll> {
               const EdgeInsets.only(left: 10, right: 40, bottom: 15, top: 10),
           child: TextField(
             decoration: const InputDecoration(
-              hintText: "İsim",
-              labelText: "İsim",
+              hintText: "Name",
+              labelText: "Name",
               border: OutlineInputBorder(),
             ),
             onChanged: (value) => _locatorRegisterInfo.name = value,
@@ -35,8 +35,8 @@ class _RegisterScrollState extends State<RegisterScroll> {
               const EdgeInsets.only(left: 10, right: 40, bottom: 15, top: 10),
           child: TextField(
             decoration: const InputDecoration(
-              hintText: "Soyisim",
-              labelText: "Soyisim",
+              hintText: "Surname",
+              labelText: "Surname",
               border: OutlineInputBorder(),
             ),
             onChanged: (value) => _locatorRegisterInfo.surname = value,
@@ -59,8 +59,8 @@ class _RegisterScrollState extends State<RegisterScroll> {
               const EdgeInsets.only(left: 10, right: 40, bottom: 15, top: 10),
           child: TextField(
             decoration: const InputDecoration(
-              hintText: "Şifre",
-              labelText: "Şifre",
+              hintText: "Password",
+              labelText: "Password",
               border: OutlineInputBorder(),
             ),
             onChanged: (value) => _locatorRegisterInfo.password = value,
