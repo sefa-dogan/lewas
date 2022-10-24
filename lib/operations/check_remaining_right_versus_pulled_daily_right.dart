@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:learn_english/model/word_model.dart';
@@ -9,8 +11,11 @@ class CheckRemainingRightVersusPulledDailyRight {
       BuildContext context,
       String userID,
       int suankiKelimeVeAnlamiIndex,
+      // ignore: no_leading_underscores_for_local_identifiers
       int _scoreOfLearnedWords,
+      // ignore: no_leading_underscores_for_local_identifiers
       int _dailyRight,
+      // ignore: no_leading_underscores_for_local_identifiers
       List<WordModel> _kelimelerveanlamlariListe,
       List<WordModel> learnedWords) async {
     if (_scoreOfLearnedWords != _dailyRight) {

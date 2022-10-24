@@ -1,7 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:learn_english/locator.dart';
+import 'package:learn_english/model/mobx/is_logged_in.dart';
+import 'package:learn_english/model/mobx/profile_image.dart';
 import 'package:learn_english/widgets/menuBari.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserInformations extends StatefulWidget {
   const UserInformations({super.key});
@@ -11,12 +18,17 @@ class UserInformations extends StatefulWidget {
 }
 
 class _UserInformationsState extends State<UserInformations> {
+  final _locator = locator<IsLoggedInMobx>();
+  final _locatorPImage = locator<ProfileImage>();
+
   late String _isim;
   late String _soyisim;
   late String _email;
-  bool aktiflik = false;
+  bool activity = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late final SharedPreferences _prefs;
+  final ImagePicker _picker = ImagePicker();
   // ignore: prefer_typing_uninitialized_variables
   var _user;
   @override
@@ -47,10 +59,21 @@ class _UserInformationsState extends State<UserInformations> {
         actions: [
           IconButton(
               onPressed: () {
-                aktiflik = true;
+                activity = true;
                 setState(() {});
               },
-              icon: const Icon(Icons.edit))
+              icon: const Icon(Icons.edit)),
+          IconButton(
+              onPressed: () async {
+                await _auth.signOut();
+                _prefs = await SharedPreferences.getInstance();
+                _prefs.setString("mailAdress", "");
+                _prefs.setString("sifre", "");
+                // ignore: no_leading_underscores_for_local_identifiers
+                _locator.screen = false;
+                Get.offAllNamed("loginpage");
+              },
+              icon: const Icon(Icons.logout)),
         ],
       ),
       body: Column(
@@ -59,18 +82,42 @@ class _UserInformationsState extends State<UserInformations> {
             width: 100,
             height: 100,
             child: Stack(children: [
-              const SizedBox(
+              SizedBox(
                 height: 100,
                 width: 100,
-                child: CircleAvatar(
-                  backgroundImage: AssetImage("assets/ben7.JPG"),
-                ),
+                child: Observer(builder: (_) {
+                  return CircleAvatar(backgroundImage: _locatorPImage.pic);
+                }),
               ),
               Align(
                 alignment: Alignment.bottomRight,
                 child: IconButton(
                   color: Colors.grey,
-                  onPressed: () {},
+                  onPressed: () async {
+                    XFile? file =
+                        await _picker.pickImage(source: ImageSource.gallery);
+                    if (file != null) {
+                      await _locatorPImage.UploadPicture(file.path);
+                      await _locatorPImage.GetUserProfilePicture();
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const AlertDialog(
+                              title: Text(
+                                  "Profil fotoğrafınız başarıyla yüklendi"),
+                            );
+                          });
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const AlertDialog(
+                            title: Text("Profil fotoğrafınız yüklenmedi"),
+                          );
+                        },
+                      );
+                    }
+                  },
                   icon: const Icon(Icons.edit),
                 ),
               ),
@@ -81,7 +128,7 @@ class _UserInformationsState extends State<UserInformations> {
               child: Expanded(
                 child: Column(
                   children: [
-                    TextFieldColumnForUsers(aktiflik),
+                    TextFieldColumnForUsers(activity),
                     ElevatedButton(
                         onPressed: () async {
                           await _firestore
@@ -93,7 +140,7 @@ class _UserInformationsState extends State<UserInformations> {
                             "soyisim": _soyisim,
                             "e-mail": _email,
                           }, SetOptions(merge: true));
-                          aktiflik = false;
+                          activity = false;
                           setState(() {});
                           await _auth.currentUser!.updateEmail(_email);
                         },
@@ -110,7 +157,7 @@ class _UserInformationsState extends State<UserInformations> {
   }
 
   // ignore: non_constant_identifier_names
-  SingleChildScrollView TextFieldColumnForUsers(durum) {
+  SingleChildScrollView TextFieldColumnForUsers(bool activityTextField) {
     return SingleChildScrollView(
         child: Column(
       children: [
@@ -118,10 +165,11 @@ class _UserInformationsState extends State<UserInformations> {
           padding:
               const EdgeInsets.only(left: 10, right: 40, bottom: 15, top: 10),
           child: TextField(
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
+              enabled: activityTextField,
               hintText: "İsim",
               labelText: "İsim",
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
             ),
             onChanged: (value) => _isim = value,
             autofocus: true,
@@ -131,10 +179,11 @@ class _UserInformationsState extends State<UserInformations> {
           padding:
               const EdgeInsets.only(left: 10, right: 40, bottom: 15, top: 10),
           child: TextField(
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
+              enabled: activityTextField,
               hintText: "Soyisim",
               labelText: "Soyisim",
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
             ),
             onChanged: (value) => _soyisim = value,
           ),
@@ -143,10 +192,11 @@ class _UserInformationsState extends State<UserInformations> {
           padding:
               const EdgeInsets.only(left: 10, right: 40, bottom: 15, top: 10),
           child: TextField(
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
+              enabled: activityTextField,
               hintText: "E-mail",
               labelText: "E-mail",
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
             ),
             onChanged: (value) => _email = value,
           ),

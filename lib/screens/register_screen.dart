@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:learn_english/locator.dart';
+import 'package:learn_english/model/mobx/register_info.dart';
 import 'package:learn_english/operations/register_operations.dart';
 import 'package:learn_english/widgets/register_scroll.dart';
 
+// ignore: must_be_immutable
 class Register extends StatefulWidget {
   const Register({super.key});
 
@@ -9,20 +13,10 @@ class Register extends StatefulWidget {
   State<Register> createState() => _RegisterState();
 }
 
+String sefa = "";
+
 class _RegisterState extends State<Register> {
-  List<String> userInformation = [
-    "E-mail",
-    "Şifre",
-  ];
-
-  late String _isim;
-
-  late String _soyisim;
-
-  late String _email;
-
-  late String _password;
-
+  final locatorRegisterInfo = locator<RegisterInfo>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,22 +43,29 @@ class _RegisterState extends State<Register> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: RegisterScroll(
-              email: _email,
-              name: _isim,
-              password: _password,
-              surname: _soyisim,
-            ),
+          const Expanded(
+            child: RegisterScroll(),
           ),
           ElevatedButton(
-            onPressed: () {
-              RegisterOperations(
-                _isim,
-                _soyisim,
-                _email,
-                _password,
-              ).registerWithEmailPassword(context);
+            onPressed: () async {
+              try {
+                await RegisterOperations(
+                  locatorRegisterInfo.name,
+                  locatorRegisterInfo.surname,
+                  locatorRegisterInfo.email,
+                  locatorRegisterInfo.password,
+                ).registerWithEmailPassword(context);
+                Get.offAllNamed("loginpage");
+              } catch (e) {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const AlertDialog(
+                      title: Text("Kayıt oluşturulamadı"),
+                    );
+                  },
+                );
+              }
             },
             child: const Text("Kayit ol"),
           ),
@@ -73,27 +74,3 @@ class _RegisterState extends State<Register> {
     );
   }
 }
-
-// ekleSirali(node *r, int eklenecekSayi){
-//   if(r==null){
-//     r=root;
-//     r=(node*)malloc(sizeof(node*));
-//     r->x=eklenecekSayi;
-//   }else{
-//     node* yeni=(node*)malloc(sizeof(node*));
-//     yeni->x=eklenecekSayi;
-//     // node*temp;
-//     for(int i=0;i<5;i++){
-//       if((r-> next ->x) < eklenecekSayi){
-//         r=r->next;
-//       }else{
-//         yeni->next=r->next;
-//         r->next=yeni;
-//       }
-      
-
-
-  //   }
-  // }
-
-// }

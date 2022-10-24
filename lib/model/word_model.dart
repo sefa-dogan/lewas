@@ -36,7 +36,7 @@ class WordModel {
 class Meaning {
   Meaning({
     required this.partOfSpeech,
-    required this.definitions,
+    required this.definitions,z
   });
 
   final String partOfSpeech;

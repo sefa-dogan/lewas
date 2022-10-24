@@ -4,6 +4,7 @@ class PullUserRight {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late int _lastOnlineDay;
 
+  // ignore: non_constant_identifier_names
   Future<int> UserRightsControl(String userID) async {
     var result = (await _firestore
             .doc("students/$userID/Student Info/Student Info")
@@ -31,4 +32,6 @@ class PullUserRight {
       return Future.error("Belirtilen adres null değer gönderdi.");
     }
   }
+
+  
 }

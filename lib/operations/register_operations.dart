@@ -16,7 +16,7 @@ class RegisterOperations {
   late UserCredential _userCredential;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  void registerWithEmailPassword(BuildContext context) async {
+  Future<void> registerWithEmailPassword(BuildContext context) async {
     try {
       _userCredential = await _auth.createUserWithEmailAndPassword(
           email: _email, password: _password);
@@ -30,8 +30,15 @@ class RegisterOperations {
           "soyisim": _soyisim,
           "e-mail": _email,
           "daily right": 10,
+          "profilePicUrl":
+              "https://static9.depositphotos.com/1589661/1139/v/600/depositphotos_11396045-stock-illustration-red-cross-button-refuse-wrong.jpg",
           "Last Online": DateTime.now().day,
         });
+        await _firestore
+            .doc("students/${_userCredential.user!.uid}")
+            .collection("learnedwords")
+            .doc("learnedwords")
+            .set({});
         await _userCredential.user!.sendEmailVerification();
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const LoginScreen(),

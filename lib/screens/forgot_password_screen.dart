@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class ForgotPassword extends StatelessWidget {
-  const ForgotPassword({super.key});
+  ForgotPassword({super.key});
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late String _email;
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +34,14 @@ class ForgotPassword extends StatelessWidget {
           Expanded(
             child: Container(
               alignment: Alignment.bottomCenter,
-              child: const Padding(
-                padding: EdgeInsets.only(left: 40, right: 40, bottom: 10),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
                 child: TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "E-mail adresinizi giriniz")),
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "E-mail adresinizi giriniz"),
+                  onChanged: (value) => _email = value,
+                ),
               ),
             ),
           ),
@@ -42,7 +49,21 @@ class ForgotPassword extends StatelessWidget {
             child: Container(
                 alignment: Alignment.topCenter,
                 child: ElevatedButton(
-                    onPressed: () {}, child: const Text("Kod gönder"))),
+                    onPressed: () async {
+                      try {
+                        await _auth
+                            .sendPasswordResetEmail(email: _email)
+                            .timeout(const Duration(seconds: 3));
+                      } catch (e) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const AlertDialog(
+                            title: Text("Bir hata ile karşılaşıldı"),
+                          ),
+                        );
+                      }
+                    },
+                    child: const Text("Kod gönder"))),
           )
         ],
       ),

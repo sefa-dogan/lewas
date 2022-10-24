@@ -49,55 +49,49 @@ class _LearnedWordsState extends State<LearnedWords> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     Map<String, dynamic> gelenData = snapshot.data!;
-                    return Column(
-                      children: gelenData.keys
-                          .map((word) => Card(
-                                child: ListTile(
-                                  leading: IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    onPressed: () {
-                                      gelenData.remove(word);
-                                      LearnedWordsOperations()
-                                          .DeleteLearnedWord(word);
-                                      setState(() {});
+                    if (gelenData.isNotEmpty) {
+                      return Column(
+                        children: gelenData.keys
+                            .map((word) => Card(
+                                  child: ListTile(
+                                    leading: IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      onPressed: () {
+                                        gelenData.remove(word);
+                                        LearnedWordsOperations()
+                                            .DeleteLearnedWord(word);
+                                        setState(() {});
+                                      },
+                                    ),
+                                    title: Text(word),
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text(gelenData[word]),
+                                          );
+                                        },
+                                      );
                                     },
                                   ),
-                                  title: Text(word),
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: Text(gelenData[word]),
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ))
-                          .toList()
-                      /* gelenData
-                          .map((word,mean) => Card(
-                                child: GestureDetector(
-                                  child: ListTile(
-                                    leading: Text(word),
-                                  ),
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (alertContext) {
-                                        return AlertDialog(
-                                          // ignore: prefer_interpolation_to_compose_strings
-                                          title:
-                                              Text(_learnedWordsAndMeans[word]),
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              )) */
-                      ,
-                    );
+                                ))
+                            .toList(),
+                      );
+                    } else {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          const Expanded(
+                            child: Text(
+                                "You did not learn even a word. What a LOSER!",
+                                style:
+                                    TextStyle(fontSize: 20, color: Colors.red)),
+                          ),
+                        ],
+                      );
+                    }
                   } else if (snapshot.hasError) {
                     return const Center();
                   } else {
@@ -105,28 +99,7 @@ class _LearnedWordsState extends State<LearnedWords> {
                   }
                 },
               )
-            ]
-                /* _learnedWords
-                  .map((word) => Card(
-                        child: GestureDetector(
-                          child: ListTile(
-                            leading: Text(word),
-                          ),
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (alertContext) {
-                                return AlertDialog(
-                                  // ignore: prefer_interpolation_to_compose_strings
-                                  title: Text(_learnedWordsAndMeans[word]),
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ))
-                  .toList(), */
-                ),
+            ]),
           ),
           MenuBari().createBar(context)
         ],

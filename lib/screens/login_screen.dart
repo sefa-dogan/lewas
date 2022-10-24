@@ -1,11 +1,13 @@
 // ignore_for_file: unused_field, use_build_context_synchronously
 
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:learn_english/model/mobx/is_logged_in.dart';
 import 'package:learn_english/operations/sign_in_operations.dart';
-import 'package:learn_english/screens/forgot_password_screen.dart';
-import 'package:learn_english/screens/home_page_screen.dart';
-import 'package:learn_english/screens/register_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,14 +18,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late String _email;
-
   late String _sifre;
-
   late UserCredential _userCredential;
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   late final String _userID;
+  final IsLoggedInMobx _isLoggedIn = IsLoggedInMobx();
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.only(left: 40),
               child: TextButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (forgotPasswordContext) =>
-                          const ForgotPassword(),
-                    ),
-                  );
+                  Get.toNamed("forgotpassword");
                 },
                 child: const Text("Şifremi unuttum"),
               ),
@@ -88,14 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.only(right: 40),
               child: TextButton(
-                // style: ButtonStyle(
-                //     minimumSize: MaterialStateProperty.all(Size(300, 20))),
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (registerContext) => const Register(),
-                    ),
-                  );
+                  Get.toNamed("register");
                 },
                 child: const Text(
                   "Kayit ol",
@@ -109,21 +97,66 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: () async {
                 try {
                   _userID = await SignIn(_email, _sifre)
-                      .SignInWithEmailPassword(context);
+                      .SignInWithEmailPassword(context)
+                      .timeout(const Duration(seconds: 20));
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
                   if (_userID.isNotEmpty) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ),
-                    );
+                    await _isLoggedIn.setAndSaveEmailAndSifre(_email, _sifre);
+                    Get.offNamed("homepage");
+
+                    var email = prefs.getString("mailAdress");
+                    if (email != null) {
+                      return showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(
+                                "$email ile giriş yapıldı ve rame kaydedildi"),
+                          );
+                        },
+                      );
+                    } else {
+                      return showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const AlertDialog(
+                            title: Text("mail adresi kaydedilmedi"),
+                          );
+                        },
+                      );
+                    }
                   }
+                } on FirebaseAuthException catch (e) {
+                  debugPrint(e.toString());
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const AlertDialog(
+                        title: Text(
+                            "E-mail ya da şifre yanlış. Kontrol ettikten sonra tekrar deneyin"),
+                      );
+                    },
+                  );
+                } on TimeoutException catch (e) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        // ignore: prefer_interpolation_to_compose_strings
+                        title: Text("Oturum açma işlemi çok uzun sürdü: " +
+                            e.toString()),
+                      );
+                    },
+                  );
                 } catch (e) {
                   showDialog(
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: Text(e.toString()),
+                        title:
+                            // ignore: prefer_interpolation_to_compose_strings
+                            Text("Bir sorunla karşılaşıldı: " + e.toString()),
                       );
                     },
                   );

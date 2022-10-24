@@ -1,26 +1,17 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
+import 'package:learn_english/locator.dart';
+import 'package:learn_english/model/mobx/register_info.dart';
 
 class RegisterScroll extends StatefulWidget {
-  RegisterScroll({
-    super.key,
-    this.name = "",
-    this.surname = "",
-    this.email = "",
-    this.password = "",
-  });
-
-  String name;
-  String surname;
-  String email;
-  String password;
-
+  const RegisterScroll({super.key});
   @override
   State<RegisterScroll> createState() => _RegisterScrollState();
 }
 
 class _RegisterScrollState extends State<RegisterScroll> {
+  final _locatorRegisterInfo = locator<RegisterInfo>();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -35,7 +26,7 @@ class _RegisterScrollState extends State<RegisterScroll> {
               labelText: "İsim",
               border: OutlineInputBorder(),
             ),
-            onChanged: (value) => widget.name = value,
+            onChanged: (value) => _locatorRegisterInfo.name = value,
             autofocus: true,
           ),
         ),
@@ -48,7 +39,7 @@ class _RegisterScrollState extends State<RegisterScroll> {
               labelText: "Soyisim",
               border: OutlineInputBorder(),
             ),
-            onChanged: (value) => widget.surname = value,
+            onChanged: (value) => _locatorRegisterInfo.surname = value,
           ),
         ),
         Padding(
@@ -60,7 +51,7 @@ class _RegisterScrollState extends State<RegisterScroll> {
               labelText: "E-mail",
               border: OutlineInputBorder(),
             ),
-            onChanged: (value) => widget.email = value,
+            onChanged: (value) => _locatorRegisterInfo.email = value,
           ),
         ),
         Padding(
@@ -72,7 +63,7 @@ class _RegisterScrollState extends State<RegisterScroll> {
               labelText: "Şifre",
               border: OutlineInputBorder(),
             ),
-            onChanged: (value) => widget.password = value,
+            onChanged: (value) => _locatorRegisterInfo.password = value,
           ),
         ),
       ],
