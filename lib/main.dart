@@ -5,7 +5,6 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:learn_english/firebase_options.dart';
 import 'package:learn_english/locator.dart';
 import 'package:learn_english/model/mobx/is_logged_in.dart';
-import 'package:learn_english/model/mobx/user_informations.dart';
 import 'package:learn_english/screens/forgot_password_screen.dart';
 import 'package:learn_english/screens/home_page_screen.dart';
 import 'package:learn_english/screens/login_screen.dart';
@@ -20,12 +19,11 @@ void main() async {
   Setup();
 
   await _locator.isLoggedInOrNot();
-  await _locatorUserInformations.GetUserInformations();
   runApp(const MyApp());
 }
 
 final _locator = locator<IsLoggedInMobx>();
-final _locatorUserInformations = locator<UserInformationsMobx>();
+
 
 // ignore: must_be_immutable
 class MyApp extends StatelessWidget {

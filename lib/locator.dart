@@ -4,7 +4,6 @@ import 'package:learn_english/model/mobx/profile_image.dart';
 import 'package:learn_english/model/mobx/register_info.dart';
 import 'package:learn_english/model/mobx/user_informations.dart';
 import 'package:learn_english/screens/register_screen.dart';
-import 'package:learn_english/screens/user_informations_screen.dart';
 
 final locator = GetIt.instance;
 
