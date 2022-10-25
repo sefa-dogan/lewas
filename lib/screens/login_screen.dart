@@ -98,10 +98,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 try {
                   _userID = await SignIn(_email, _sifre)
                       .SignInWithEmailPassword(context)
-                      .timeout(const Duration(seconds: 20));
+                      .timeout(const Duration(seconds: 10));
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  if (_userID.isNotEmpty) {
+                  if (_userID != "" && _userID != null) {
                     await _isLoggedIn.setAndSaveEmailAndSifre(_email, _sifre);
                     Get.offNamed("homepage");
 
@@ -132,9 +132,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   showDialog(
                     context: context,
                     builder: (context) {
-                      return const AlertDialog(
+                      return AlertDialog(
                         title: Text(
-                            "E-mail ya da şifre yanlış. Kontrol ettikten sonra tekrar deneyin"),
+                            "E-mail ya da şifre yanlış. Kontrol ettikten sonra tekrar deneyin. Hata: ${e.message}"),
                       );
                     },
                   );
@@ -156,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       return AlertDialog(
                         title:
                             // ignore: prefer_interpolation_to_compose_strings
-                            Text("Bir sorunla karşılaşıldı: " + e.toString()),
+                            Text("Bir sorunla karşılaşıldı: $e "),
                       );
                     },
                   );

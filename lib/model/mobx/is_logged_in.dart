@@ -39,7 +39,8 @@ abstract class _IsLoggedInBase with Store {
     _prefs = await SharedPreferences.getInstance();
     email = _prefs.getString("mailAdress") ?? "";
     sifre = _prefs.getString("sifre") ?? "";
-    if (email != "" && sifre != "") {
+
+    if (email != "" && email != null && sifre != "" && sifre != null) {
       await _auth.signInWithEmailAndPassword(email: email!, password: sifre!);
       await _locatorPImage.GetUserProfilePicture();
       await _locatorUserInformations.GetUserInformations();

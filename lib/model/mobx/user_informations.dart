@@ -10,7 +10,6 @@ abstract class _UserInformationsBase with Store {
   @observable
   Map<String, dynamic> userInformations = {};
 
-
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   @action

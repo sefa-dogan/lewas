@@ -51,7 +51,7 @@ abstract class _ProfileImageBase with Store {
     if (result != null && result["profilePicUrl"] != null) {
       pic = NetworkImage(result["profilePicUrl"]);
     } else {
-      return Future.error("Belirtilen adres null gönderdi");
+      return await Future.error("Belirtilen adres null gönderdi");
     }
   }
 }
