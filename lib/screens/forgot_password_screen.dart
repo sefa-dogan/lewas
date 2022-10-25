@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class ForgotPassword extends StatelessWidget {
@@ -54,6 +55,7 @@ class ForgotPassword extends StatelessWidget {
                         await _auth
                             .sendPasswordResetEmail(email: _email)
                             .timeout(const Duration(seconds: 3));
+                        await Get.offNamed("loginpage");
                       } catch (e) {
                         showDialog(
                           context: context,

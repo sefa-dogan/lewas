@@ -3,7 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:learn_english/screens/login_screen.dart';
+import 'package:get/get.dart';
 
 class RegisterOperations {
   RegisterOperations(this._isim, this._soyisim, this._email, this._password);
@@ -11,7 +11,6 @@ class RegisterOperations {
   final String _soyisim;
   final String _email;
   final String _password;
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late UserCredential _userCredential;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -40,9 +39,7 @@ class RegisterOperations {
             .doc("learnedwords")
             .set({});
         await _userCredential.user!.sendEmailVerification();
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ));
+        Get.offNamed("loginpage");
       } else {
         throw Future.error("Kayıt yapılamadı");
       }

@@ -18,6 +18,7 @@ class SignIn {
       return _user.uid;
     } else {
       await _user.sendEmailVerification();
+      await _auth.signOut();
       showDialog(
         context: context,
         builder: (context) {

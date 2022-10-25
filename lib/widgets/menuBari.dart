@@ -1,9 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:learn_english/screens/home_page_screen.dart';
-import 'package:learn_english/screens/learned_words_screen.dart';
-import 'package:learn_english/screens/user_informations_screen.dart';
+import 'package:get/get.dart';
 
 class MenuBari {
   Row createBar(BuildContext context) {
@@ -15,12 +13,7 @@ class MenuBari {
                 backgroundColor: MaterialStateProperty.all(Colors.transparent),
                 shadowColor: MaterialStateProperty.all(Colors.white)),
             onPressed: () {
-              if (Navigator.canPop(context)) {
-                Navigator.maybePop(context);
-              }
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              ));
+              Get.offNamed("homepage");
             },
             clipBehavior: Clip.antiAliasWithSaveLayer,
             child: const Icon(Icons.home, color: Colors.black, shadows: [
@@ -34,12 +27,7 @@ class MenuBari {
                 backgroundColor: MaterialStateProperty.all(Colors.transparent),
                 shadowColor: MaterialStateProperty.all(Colors.white)),
             onPressed: () {
-              if (Navigator.canPop(context)) {
-                Navigator.maybePop(context);
-              }
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const LearnedWords(),
-              ));
+              Get.offNamed("learnedpage");
             },
             clipBehavior: Clip.antiAliasWithSaveLayer,
             child: const Icon(
@@ -58,12 +46,7 @@ class MenuBari {
                 backgroundColor: MaterialStateProperty.all(Colors.transparent),
                 shadowColor: MaterialStateProperty.all(Colors.white)),
             onPressed: () {
-              if (Navigator.canPop(context)) {
-                Navigator.maybePop(context);
-              }
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (userInformationsContext) => const UserInformations(),
-              ));
+              Get.offNamed("userinformationspage");
             },
             clipBehavior: Clip.antiAliasWithSaveLayer,
             child: const Icon(Icons.admin_panel_settings,

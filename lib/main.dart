@@ -7,8 +7,10 @@ import 'package:learn_english/locator.dart';
 import 'package:learn_english/model/mobx/is_logged_in.dart';
 import 'package:learn_english/screens/forgot_password_screen.dart';
 import 'package:learn_english/screens/home_page_screen.dart';
+import 'package:learn_english/screens/learned_words_screen.dart';
 import 'package:learn_english/screens/login_screen.dart';
 import 'package:learn_english/screens/register_screen.dart';
+import 'package:learn_english/screens/user_informations_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +20,7 @@ void main() async {
 
   Setup();
 
-  await _locator.isLoggedInOrNot();
+  await _locator.isLoggedInOrNot(); 
   runApp(const MyApp());
 }
 
@@ -50,7 +52,9 @@ class MyApp extends StatelessWidget {
             name: "/forgotpassword",
             page: () => ForgotPassword(),
           ),
-          GetPage(name: "/register", page: () => const Register())
+          GetPage(name: "/register", page: () => const Register()),
+          GetPage(name: "/learnedpage", page: () => const LearnedWords(),),
+          GetPage(name: "/userinformationspage", page: () => const UserInformations(),)
         ]);
   }
 }

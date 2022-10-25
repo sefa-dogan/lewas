@@ -73,8 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 40),
               child: TextButton(
-                onPressed: () {
-                  Get.toNamed("forgotpassword");
+                onPressed: () async{
+                  await Get.offNamed("forgotpassword");
                 },
                 child: const Text("Forgot password"),
               ),
@@ -82,8 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.only(right: 40),
               child: TextButton(
-                onPressed: () {
-                  Get.toNamed("register");
+                onPressed: () async{
+                  await Get.offNamed("register");
                 },
                 child: const Text(
                   "Register",
@@ -101,9 +101,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       .timeout(const Duration(seconds: 10));
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
+                  // ignore: unnecessary_null_comparison
                   if (_userID != "" && _userID != null) {
                     await _isLoggedIn.setAndSaveEmailAndSifre(_email, _sifre);
-                    Get.offNamed("homepage");
+                    await Get.offNamed("homepage");
 
                     var email = prefs.getString("mailAdress");
                     if (email != null) {
