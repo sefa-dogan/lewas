@@ -1,16 +1,11 @@
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:learn_english/components/my_app/view/my_app.dart';
 import 'package:learn_english/firebase_options.dart';
 import 'package:learn_english/locator.dart';
-import 'package:learn_english/model/mobx/is_logged_in.dart';
-import 'package:learn_english/screens/forgot_password_screen.dart';
-import 'package:learn_english/screens/home_page_screen.dart';
-import 'package:learn_english/screens/learned_words_screen.dart';
-import 'package:learn_english/screens/login_screen.dart';
-import 'package:learn_english/screens/register_screen.dart';
-import 'package:learn_english/screens/user_informations_screen.dart';
+
+import 'package:learn_english/store/is_logged_in_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,43 +13,13 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  Setup();
+  setup();
+  await viewModelIsLoggedIn.isLoggedInOrNot();
 
-  await _locator.isLoggedInOrNot(); 
   runApp(const MyApp());
 }
 
-final _locator = locator<IsLoggedInMobx>();
-
+final viewModelIsLoggedIn = locator<IsLoggedInViewModel>();
 
 // ignore: must_be_immutable
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-        title: "LEWAS",
-        home: Observer(
-          builder: (_) {
-            return _locator.screen == true
-                ? const HomePage()
-                : const LoginScreen();
-          },
-        ),
-        theme: ThemeData.light(),
-        getPages: [
-          GetPage(
-            name: "/homepage",
-            page: () => const HomePage(),
-          ),
-          GetPage(name: "/loginpage", page: () => const LoginScreen()),
-          GetPage(
-            name: "/forgotpassword",
-            page: () => ForgotPassword(),
-          ),
-          GetPage(name: "/register", page: () => const Register()),
-          GetPage(name: "/learnedpage", page: () => const LearnedWords(),),
-          GetPage(name: "/userinformationspage", page: () => const UserInformations(),)
-        ]);
-  }
-}
+
