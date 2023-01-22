@@ -1,45 +1,54 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+# LEWAS
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
+## Uygulamanın Tanıtımı
+Kulllanıcı uygulamaya kayıt olduktan sonra, uygulamanın kendisine sunmuş olduğu kelimeleri ana sayfada, kendisi ve bir cümle içinde örnek kullanımı ile görüntüleyebilecektir. Öğrendiği kelimeleri listeleyebilir, silebilir ve listelenen kelimelere tıkladığında aynı şekilde kelimenin kendisini ve örnek kullanımını görüntüleyebilir. Profil sayfasında ise bilgilerini güncelleyebilecektir.
 
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+## Components
+lib/components klasörüne gidin.
 
----
+### Splash Screen
+Uygulama açılırken kullanıcıya kısa süreliğine gösterilen ekran.
 
-## Edit a file
+### Register Screen
+Register ekranı, kullanıcının isim, soyisim, e-mail ve şifresini TextField aracılığıyla alarak Register butonu ile kayıt işleminin gerçekleşmesini sağlar. Kayıt işlemi tamamlandığında kullanıcının e-mail adresine hesap doğrulama maili gönderilir. Kullanıcı bu maildeki linke tıklayıp hesabını doğrulamazsa oturum açamayacaktır.
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
+### Login Screen
+Kullanıcının daha önce kayıt olduğu e-mail ve şifresi ile oturum açma işlemini gerçekleştireceği ekrandır. Eğer hesap onaylandıysa oturum açılacaktır.
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
+### Home Screen ###
+Oturum açtıktan sonra bizi karşılayacak olan ekrandır. Bu ekranda ingilizce kelimeler, bu kelimelerle ilgili metinler, Learned butonu ve Remind me later butonu yer almaktadır. Learned butonuna basıldığında geçerli kelime Learned Words Screen’ de listelenecektir. Remind me later butonuna basıldığında ise farklı bir kelime gösterilecektir.
 
----
+### Learned Words Screen
+Menu barında ortadaki butona dokunarak ulaşılabilen Learned Words ekranı öğrenilen bütün kelimelerin listelendiği ekrandır. Bu ekranda, öğrenilen kelime istenildiği takdirde Home ekranında görüntülenmek üzere silinebilir veya öğrenilen kelimenin üzerine dokunarak o kelimeye ait olan metin tekrar görüntülenebilir.
 
-## Create a file
+### User Informations Screen
+User Informations ekranı kullanıcının isim, soyisim ve e-mail bilgilerini görüntüleyebildiği ve eğer isterse sağ üstteki “Edit” ikonuna dokunduktan sonra TextFieldları aktif edip bilgilerini değiştirdikten sonra Update butonu ile yeni bilgilerini veritabanına kayıt edebildiği ekrandır. Ayrıca sağ üstteki “Log out” ikonu ile oturumunu kapatabilir.
 
-Next, you’ll add a new file to this repository.
+### Forgot Password Screen
+Kullanıcının kayıt olurken kullandığı e-mail adresini girdikten sonra “Send Reset E-mail” butonuna dokunarak mail adresine şifre sıfırlama linki gönderdiği ve bu linki kullanarak şifresini değiştirebildiği ekrandır.
 
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
+## Operasyonlar
 
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
+### Sign In Operations
+Sign In operasyonu, içindeki metod sayesinde kimlik doğrulama(authentication) işlemini ve eğer mail adresi doğulanmamışsa doğrulama maili gönderen operasyondur.
 
----
+### Register Operations
+Register operasyonu kullanıcıyı, isim soyisim ve e-mail bilgileri ile kayıt eder, doğrulama maili gönderir. Bu işlemlerin sonunda ise Login ekranına yönlendirir.
 
-## Clone a repository
+### Pull Word Operations
+Pull Word operasyonu, ilk önce LearnedWordsOperations() operasyonu aracılığı ile önceden öğrenilen kelimeleri Firebase veritabanından çeker ve daha sonra anlamlarının çekilmesini istediğimiz WordList listesinden bu kelimeleri çıkarır. Elimizde kalan güncel  WordList listesindeki kelimeler hakkındaki bilgileri verilen api adresinden Dio paketi ile çeker. Kelimeleri istenilen formata getirir ve bilgileri çekilen bütün kelimelerin olduğu bir listeyi döndürür.
 
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
+### Pull User Right Operations
+Kullanıcının günlük kelime öğrenme hak bilgisini Firebase veritabanından çeker ve bunu döndürür.
 
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
+### Learned Words Operations
+Önceden öğrenilen kelimelerin veritabanından çekildiği, uygulama kullanılırken öğrenilen kelimelerin veritabanından silindiği operasyondur.
 
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
+### Check Remaining Right Versus Pulled Daily Right Operations
+Temel olarak, uygulama açıldıktan sonra Firebase veritabanından çekilen günlük hak sayısı ile uygulamayı kullanırken kalan hak sayısını karşılaştıran operasyondur. Öğrenilen uygulamayı veritabanına gönderir.
+
+## Store folder
+Uygulama içinde birden fazla component tarafından ulaşılacak metodlar/değişkenler bu klasörde çalışır.
+
+## Utils folder
+Uygulamada kullanılan constant değerler atomic widgetlar burada bulunur.

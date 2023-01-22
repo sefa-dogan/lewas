@@ -1,0 +1,10 @@
+^C:\USERS\SEFAD\DESKTOP\LEWAS\LEWAS\BUILD\WINDOWS\CMAKEFILES\869F94949A05D274A1994E6043B3F291\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/sefad/Desktop/lewas/lewas/windows -BC:/Users/sefad/Desktop/lewas/lewas/build/windows --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/sefad/Desktop/lewas/lewas/build/windows/learn_english.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -17,28 +17,26 @@ class _LearnedWordsListItemState extends State<LearnedWordCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Card(
-        child: ListTile(
-          title: Text(widget.learnedItem.word),
-          leading: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () async {
-                viewModel.isDeleting = true;
-                await viewModel.deleteLearnedWord(widget.learnedItem);
-              }),
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text(
-                      widget.learnedItem.meanings[0].definitions[0].definition),
-                );
-              },
-            );
-          },
-        ),
+    return Card(
+      child: ListTile(
+        title: Text(widget.learnedItem.word),
+        leading: IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () async {
+              viewModel.isDeleting = true;
+              await viewModel.deleteLearnedWord(widget.learnedItem);
+            }),
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text(
+                    widget.learnedItem.meanings[0].definitions[0].definition),
+              );
+            },
+          );
+        },
       ),
     );
   }

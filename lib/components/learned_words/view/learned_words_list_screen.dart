@@ -63,7 +63,10 @@ class _LearnedWordsListScreenState extends State<LearnedWordsListScreen> {
                       );
                     },
                   ),
-                  Center(child: viewModel.isDeleting?const CircularProgressIndicator():const SizedBox()),
+                  Center(
+                      child: viewModel.isDeleting
+                          ? const CircularProgressIndicator()
+                          : const SizedBox()),
                 ]),
               );
             } else {

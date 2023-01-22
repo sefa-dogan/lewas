@@ -83,22 +83,20 @@ class _UserInformationsState extends State<UserInformations> {
           ),
           Expanded(
             child: SingleChildScrollView(
-              child: Expanded(
-                child: Column(
-                  children: [
-                    UserInformationsForm(),
-                    GenericElevatedButton(
-                        childWidget: const Text("Update"),
-                        onPressedFunc: () async {
-                          await viewModel.updateUserInformations();
-                        }),
-                    // ElevatedButton(
-                    //     onPressed: () async {
-                    //       await viewModel.updateUserInformations();
-                    //     },
-                    //     child: const Text("Update")),
-                  ],
-                ),
+              child: Column(
+                children: [
+                  UserInformationsForm(),
+                  GenericElevatedButton(
+                      childWidget: const Text("Update"),
+                      onPressedFunc: () async {
+                        await viewModel.updateUserInformations();
+                      }),
+                  // ElevatedButton(
+                  //     onPressed: () async {
+                  //       await viewModel.updateUserInformations();
+                  //     },
+                  //     child: const Text("Update")),
+                ],
               ),
             ),
           ),

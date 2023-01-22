@@ -25,14 +25,14 @@ abstract class _HomeViewModelBase with Store {
     "door",
     "dress",
     "bin",
-    // "ring",
-    // "laptop",
-    // "air",
-    // "cable",
-    // "shoe",
-    // "muscle",
-    // "wall",
-    // "shelf"
+    "ring",
+    "laptop",
+    "air",
+    "cable",
+    "shoe",
+    "muscle",
+    "wall",
+    "shelf"
   ];
   final String _apiLink = "https://api.dictionaryapi.dev/api/v2/entries/en/";
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
