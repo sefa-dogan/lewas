@@ -43,6 +43,7 @@ Kullanıcının kayıt olurken kullandığı e-mail adresini girdikten sonra “
 ![image](https://user-images.githubusercontent.com/56110811/213943592-ecc2ad42-6705-44aa-b9a8-81467e7030ed.png)
 
 ## Operasyonlar
+lib/operations klasörüne gidin.
 
 ### Sign In Operations
 Sign In operasyonu, içindeki metod sayesinde kimlik doğrulama(authentication) işlemini ve eğer mail adresi doğulanmamışsa doğrulama maili gönderen operasyondur.
